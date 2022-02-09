@@ -4,13 +4,14 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
+
 public class ButtonScript : MonoBehaviour
 {
     public Color[] colours;
     public string[] names;
 
     public GameObject buttonLeft;
-    public GameObject buttonRight;
+    //public GameObject buttonRight;
     public GameObject P1Score;
     public GameObject P2Score;
 
@@ -26,15 +27,20 @@ public class ButtonScript : MonoBehaviour
     private bool pointsAwarded = false;
     private int playerOnePoints;
     private int playerTwoPoints;
-    
+
+    public delegate void ScoreDelegate();
+    public static event ScoreDelegate ScoreboardEvent;
+
     void Start()
     {
         SetupArrays();
+        UpdateScoreButtons();
+        SetColour();
+        SetText();
     }
 
     void Update()
     {
-        UpdateScoreButtons();
         ChangeButtons();
         CheckButtons();
         PlayerInputs();
@@ -88,18 +94,24 @@ public class ButtonScript : MonoBehaviour
     {
         if(currentColour == currentText)
         {
-            if((Input.GetKeyDown("m")) && (!pointsAwarded))
+            if((Input.GetKeyDown(KeyCode.M)) && (!pointsAwarded))
             {
                 pointsAwarded = true;
-                playerTwoPoints += 1;
-                //print("Player Two Points = " + playerTwoPoints);
+                if (ScoreboardEvent != null)
+                {
+                    ScoreboardEvent();
+                }
+                //playerTwoPoints += 1;
+                print("Player Two Points = " + playerTwoPoints);
+                //UpdateScoreButtons();
             }
 
-            if ((Input.GetKeyDown("a")) && (!pointsAwarded))
+            if ((Input.GetKeyDown(KeyCode.A)) && (!pointsAwarded))
             {
                 pointsAwarded = true;
-                playerOnePoints += 1;
-                //print("Player One Points = " + playerOnePoints);
+                //playerOnePoints += 1;
+                print("Player One Points = " + playerOnePoints);
+                //UpdateScoreButtons();
             }
         }
     }
@@ -116,7 +128,7 @@ public class ButtonScript : MonoBehaviour
     {
          newColourIndex = Random.Range(0, colours.Length - 1);
          buttonLeft.GetComponent<Image>().color = colours[newColourIndex];
-         buttonRight.GetComponent<Image>().color = colours[newColourIndex];
+         //buttonRight.GetComponent<Image>().color = colours[newColourIndex];
     }
 
     void SetText()
@@ -124,7 +136,7 @@ public class ButtonScript : MonoBehaviour
         newTextIndex = Random.Range(0, names.Length - 1);
         //newText = names[2];
         buttonLeft.GetComponentInChildren<TextMeshProUGUI>().text = names[newTextIndex];
-        buttonRight.GetComponentInChildren<TextMeshProUGUI>().text = names[newTextIndex];
+        //buttonRight.GetComponentInChildren<TextMeshProUGUI>().text = names[newTextIndex];
     }
 
     void GetColour()
