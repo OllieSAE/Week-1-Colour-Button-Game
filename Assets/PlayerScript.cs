@@ -32,15 +32,6 @@ public class PlayerScript : MonoBehaviour
         return myKeyCode;
     }
     
-    void OnEnable()
-    {
-        ButtonScript.ScoreboardEvent += AddScore;
-    }
-    void OnDisable()
-    {
-        ButtonScript.ScoreboardEvent -= AddScore;
-    }
-
     public void AddScore()
     {
         GetComponent<ScoreboardScript>().UpdateScoreboardUI(myName);
@@ -54,5 +45,15 @@ public class PlayerScript : MonoBehaviour
     public int GetScore()
     {
         return myScore;
+    }
+    
+    //not currently implemented
+    void OnEnable()
+    {
+        ButtonScript.ScoreboardEvent += AddScore;
+    }
+    void OnDisable()
+    {
+        ButtonScript.ScoreboardEvent -= AddScore;
     }
 }
