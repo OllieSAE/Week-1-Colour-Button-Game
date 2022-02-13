@@ -7,27 +7,31 @@ using UnityEngine.UI;
 
 public class PlayerScript : MonoBehaviour
 {
-    //public GameObject player;
-    //public List<GameObject> playerList;
-
-    public int playerScore;
-    public GameObject scoreboardUI;
-
-
-    //public ButtonScript buttonScript;
-    // Start is called before the first frame update
-    void Start()
+    
+    public string myName;
+    private int myScore = 0;
+    public KeyCode myKeyCode;
+    
+    void Awake()
     {
-        //if (buttonScript == null)
-        //{
-            //buttonScript = GameObject.FindObjectOfType<ButtonScript>();
-        //}
-
-        
-        //scoreboardUI = this.gameObject;
+        this.GetComponent<ButtonScript>().SetPlayer(myName, myScore, myKeyCode);
+    }
+    
+    public string GetName()
+    {
+        return myName;
     }
 
+    public string GetKeyCodeName()
+    {
+        return myKeyCode.ToString();
+    }
 
+    public KeyCode GetKeyCode()
+    {
+        return myKeyCode;
+    }
+    
     void OnEnable()
     {
         ButtonScript.ScoreboardEvent += AddScore;
@@ -37,19 +41,18 @@ public class PlayerScript : MonoBehaviour
         ButtonScript.ScoreboardEvent -= AddScore;
     }
 
-    // Update is called once per frame
-    void Update()
+    public void AddScore()
     {
-        
+        GetComponent<ScoreboardScript>().UpdateScoreboardUI(myName);
     }
 
-    void AddScore()
+    public void SetScore()
     {
-        playerScore += 1;
-        UpdateScoreUI();
+        myScore += 1;
     }
-    void UpdateScoreUI()
+
+    public int GetScore()
     {
-        scoreboardUI.GetComponentInChildren<TextMeshProUGUI>().text = playerScore.ToString();
+        return myScore;
     }
 }

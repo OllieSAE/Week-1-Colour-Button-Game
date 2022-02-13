@@ -11,9 +11,6 @@ public class ButtonScript : MonoBehaviour
     public string[] names;
 
     public GameObject buttonLeft;
-    //public GameObject buttonRight;
-    public GameObject P1Score;
-    public GameObject P2Score;
 
     private bool colourOff = true;
     private bool nameOff;
@@ -25,18 +22,22 @@ public class ButtonScript : MonoBehaviour
     private int currentText;
 
     private bool pointsAwarded = false;
-    private int playerOnePoints;
-    private int playerTwoPoints;
-
+    
     public delegate void ScoreDelegate();
     public static event ScoreDelegate ScoreboardEvent;
+    
+    private string myName;
+    private int myScore;
+    private KeyCode myKeyCode;
+
+    private List<PlayerScript> playerList;
 
     void Start()
     {
         SetupArrays();
-        UpdateScoreButtons();
         SetColour();
         SetText();
+        SetPlayers();
     }
 
     void Update()
@@ -45,6 +46,26 @@ public class ButtonScript : MonoBehaviour
         CheckButtons();
         PlayerInputs();
     }
+
+    public void SetPlayer(string newMyName, int newMyScore, KeyCode newMyKeyCode)
+    {
+        myName = newMyName;
+        myScore = newMyScore;
+        myKeyCode = newMyKeyCode;
+    }
+
+    void SetPlayers()
+    {
+        playerList = new List<PlayerScript>();
+        playerList.AddRange(GameObject.FindObjectsOfType<PlayerScript>());
+
+        for (int i = 0; i < playerList.Count; i++)
+        {
+            print("" + playerList[i].GetName() + "'s keycode is " + playerList[i].GetKeyCodeName().ToString());
+        }
+    }
+
+    
 
     void SetupArrays()
     {
@@ -94,31 +115,26 @@ public class ButtonScript : MonoBehaviour
     {
         if(currentColour == currentText)
         {
-            if((Input.GetKeyDown(KeyCode.M)) && (!pointsAwarded))
+            print("match between " + currentColour + " and " + currentText);
+            for (int i = 0; i < playerList.Count; i++)
             {
-                pointsAwarded = true;
-                if (ScoreboardEvent != null)
+                if (Input.GetKeyDown(playerList[i].GetKeyCode()) && (!pointsAwarded))
                 {
-                    ScoreboardEvent();
+                    pointsAwarded = true;
+                    playerList[i].AddScore();
+                    //if (ScoreboardEvent != null)
+                    //{
+                        //ScoreboardEvent();
+                        //print("player name that just scored: " + playerList[i].GetName());
+                    //}
                 }
-                //playerTwoPoints += 1;
-                print("Player Two Points = " + playerTwoPoints);
-                //UpdateScoreButtons();
-            }
-
-            if ((Input.GetKeyDown(KeyCode.A)) && (!pointsAwarded))
-            {
-                pointsAwarded = true;
-                //playerOnePoints += 1;
-                print("Player One Points = " + playerOnePoints);
-                //UpdateScoreButtons();
             }
         }
     }
     
     IEnumerator ChangeCoroutine()
     {
-        yield return new WaitForSeconds(1.5f);
+        yield return new WaitForSeconds(5f);
         SetColour();
         SetText();
         colourOff = true;
@@ -128,32 +144,21 @@ public class ButtonScript : MonoBehaviour
     {
          newColourIndex = Random.Range(0, colours.Length - 1);
          buttonLeft.GetComponent<Image>().color = colours[newColourIndex];
-         //buttonRight.GetComponent<Image>().color = colours[newColourIndex];
     }
 
     void SetText()
     {
         newTextIndex = Random.Range(0, names.Length - 1);
-        //newText = names[2];
         buttonLeft.GetComponentInChildren<TextMeshProUGUI>().text = names[newTextIndex];
-        //buttonRight.GetComponentInChildren<TextMeshProUGUI>().text = names[newTextIndex];
     }
 
     void GetColour()
     {
-        //currentColour = buttonLeft.GetComponent<Image>().color;
         currentColour = newColourIndex;
     }
 
     void GetText()
     {
-        //currentText = buttonLeft.GetComponentInChildren<TextMeshProUGUI>().text;
         currentText = newTextIndex;
-    }
-
-    void UpdateScoreButtons()
-    {
-        P1Score.GetComponentInChildren<TextMeshProUGUI>().text = playerOnePoints.ToString();
-        P2Score.GetComponentInChildren<TextMeshProUGUI>().text = playerTwoPoints.ToString();
     }
 }
