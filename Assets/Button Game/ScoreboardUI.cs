@@ -4,19 +4,19 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 
-public class ScoreboardScript : MonoBehaviour
+public class ScoreboardUI : MonoBehaviour
 {
     public GameObject scoreboardUI;
 
     private string myName;
     private int myScore;
 
-    private List<PlayerScript> playerList;
+    private List<Player> playerList;
 
     void Start()
     {
-        playerList = new List<PlayerScript>();
-        playerList.AddRange(GameObject.FindObjectsOfType<PlayerScript>());
+        playerList = new List<Player>();
+        playerList.AddRange(GameObject.FindObjectsOfType<Player>());
     }
     
     public void UpdateScoreboardUI(string newMyName)

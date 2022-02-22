@@ -5,7 +5,7 @@ using UnityEngine;
 using UnityEngine.UI;
 
 
-public class ButtonScript : MonoBehaviour
+public class GameManager : MonoBehaviour
 {
     public Color[] colours;
     public string[] names;
@@ -30,7 +30,7 @@ public class ButtonScript : MonoBehaviour
     private int myScore;
     private KeyCode myKeyCode;
 
-    private List<PlayerScript> playerList;
+    private List<Player> playerList;
 
     void Start()
     {
@@ -42,6 +42,8 @@ public class ButtonScript : MonoBehaviour
 
     void Update()
     {
+        //ChangeButtons() calls a Coroutine with a 5sec delay
+        //Does CheckButtons() start AFTER Coroutine finishes, or before?
         ChangeButtons();
         CheckButtons();
         PlayerInputs();
@@ -56,8 +58,8 @@ public class ButtonScript : MonoBehaviour
 
     void SetPlayers()
     {
-        playerList = new List<PlayerScript>();
-        playerList.AddRange(GameObject.FindObjectsOfType<PlayerScript>());
+        playerList = new List<Player>();
+        playerList.AddRange(GameObject.FindObjectsOfType<Player>());
 
         for (int i = 0; i < playerList.Count; i++)
         {

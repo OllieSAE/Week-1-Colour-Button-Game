@@ -5,7 +5,7 @@ using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
 
-public class PlayerScript : MonoBehaviour
+public class Player : MonoBehaviour
 {
     
     public string myName;
@@ -14,13 +14,16 @@ public class PlayerScript : MonoBehaviour
     
     void Awake()
     {
-        this.GetComponent<ButtonScript>().SetPlayer(myName, myScore, myKeyCode);
+        this.GetComponent<GameManager>().SetPlayer(myName, myScore, myKeyCode);
     }
     
     public string GetName()
     {
         return myName;
     }
+    //right click helper icon on left
+    //encapsulate field
+    //turn it to property!
 
     public string GetKeyCodeName()
     {
@@ -34,7 +37,7 @@ public class PlayerScript : MonoBehaviour
     
     public void AddScore()
     {
-        GetComponent<ScoreboardScript>().UpdateScoreboardUI(myName);
+        GetComponent<ScoreboardUI>().UpdateScoreboardUI(myName);
     }
 
     public void SetScore()
@@ -47,13 +50,14 @@ public class PlayerScript : MonoBehaviour
         return myScore;
     }
     
-    //not currently implemented
+    //Event is currently not implemented
+    //Intention was to use this to add score, but did not know how to add parameters to the event to send in player details
     void OnEnable()
     {
-        ButtonScript.ScoreboardEvent += AddScore;
+        GameManager.ScoreboardEvent += AddScore;
     }
     void OnDisable()
     {
-        ButtonScript.ScoreboardEvent -= AddScore;
+        GameManager.ScoreboardEvent -= AddScore;
     }
 }
