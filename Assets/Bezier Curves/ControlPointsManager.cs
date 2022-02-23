@@ -4,14 +4,14 @@ using UnityEngine;
 
 public class ControlPointsManager : MonoBehaviour
 {
-    public Transform[] controlPoints;
+    public List<Transform> controlPoints;
     void Start()
     {
-        controlPoints = new Transform[transform.childCount];
+        controlPoints = new List<Transform>(transform.childCount);
         for (int i = 0; i < transform.childCount; i++)
         {
-            controlPoints[i] = transform.GetChild(i);
+            controlPoints.Add(transform.GetChild(i));
         }
-        print(controlPoints.Length);
+        print("Control Points Transforms count = " +controlPoints.Count);
     }
 }

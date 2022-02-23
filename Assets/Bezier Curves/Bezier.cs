@@ -16,7 +16,7 @@ public class Bezier : MonoBehaviour
     private float speed;
     private bool controlPointsGenerated;
 
-    private Vector3[] bezierControlPoints;
+    private List<Vector3> bezierControlPoints;
     
     //CHANGE EVERYTHING TO LISTS
     //NOT ARRAYS
@@ -24,19 +24,20 @@ public class Bezier : MonoBehaviour
     
     void Start()
     {
-        bezierControlPoints = new[] {cp1, cp2, cp3, cp4};
+        bezierControlPoints = new List<Vector3>();
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (controlPointsManager.controlPoints.Length > 0 && !controlPointsGenerated)
+        if (controlPointsManager.controlPoints.Count > 0 && !controlPointsGenerated)
         {
             GenerateControlPoints();
         }
 
         if (controlPointsGenerated)
         {
+            UpdateControlPoints();
             BezierCurve();
         }
 
@@ -45,15 +46,26 @@ public class Bezier : MonoBehaviour
 
     void GenerateControlPoints()
     {
-        for (int i = 0; i < controlPointsManager.controlPoints.Length; i++)
+        for (int i = 0; i < controlPointsManager.controlPoints.Count; i++)
         {
-            bezierControlPoints[i] = controlPointsManager.controlPoints[i].transform.position;
+            bezierControlPoints.Add(controlPointsManager.controlPoints[i].transform.position);
         }
         controlPointsGenerated = true;
+        print("Control Points Vector3s count = " +bezierControlPoints.Count);
+    }
+
+    void UpdateControlPoints()
+    {
+        foreach (Vector3 var in bezierControlPoints)
+        {
+            bezierControlPoints.Remove(var);
+        }
+        GenerateControlPoints();
     }
 
     void BezierCurve()
     {
+        //this bit needs to be updated to be modular!
         a = Vector3.Lerp(bezierControlPoints[0], bezierControlPoints[1], speed);
         b = Vector3.Lerp(bezierControlPoints[1], bezierControlPoints[2], speed);
         c = Vector3.Lerp(bezierControlPoints[2], bezierControlPoints[3], speed);
