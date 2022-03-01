@@ -72,7 +72,7 @@ public class PerlinTerrain : MonoBehaviour
                         go.transform.parent = gameObject.transform;
                         go.transform.position = new Vector3(cubeCount, cubeCount, cubeCount);
                         Vector3 goalPos = new Vector3(i, j, k);
-                        go.transform.DOMove(goalPos, 10f);
+                        go.transform.DOMove(goalPos, 5f);
                     }
                 }
             }

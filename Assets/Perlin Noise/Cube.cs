@@ -25,6 +25,8 @@ public class Cube : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        #region Attempt At NoiseS3D scale fluctuation
+
         //float noiseValue = (float)NoiseS3D.Noise(noiseScale, noiseScale, noiseScale);
         //transform.localScale = new Vector3(noiseValue*(Random.Range(0,1f)),noiseValue*(Random.Range(0,1f)),noiseValue*(Random.Range(0,1f)));
         
@@ -32,6 +34,9 @@ public class Cube : MonoBehaviour
         //print(""+ transform.localScale.ToString());
 
         //below works with PerlinNoise (Cam's solution)
+
+        #endregion
+        
         transform.localScale = new Vector3(Mathf.PerlinNoise(Time.time+uniqueX, 0), Mathf.PerlinNoise(Time.time+uniqueY, 0),Mathf.PerlinNoise(Time.time+uniqueZ, 0));
 
         ChangeColour();
@@ -58,11 +63,14 @@ public class Cube : MonoBehaviour
         }
     }
 
-    //CAMS MATHS APPROACH
+    #region Cam's Maths Approach
+    
     //TAKE TWO OR THREE NUMBERS YOU'RE GETTING AND CONVERT THEM TO WHAT YOU WANT
     //EG
     //HAVE: -1, 0, 1, 0.25, 0.6
     //WANT: 0, 0.5, 1, 0.25, 0.6
     //x 0.5
     //+1 is bad, * whatever is bad, +1 then /2 is GOOD
+
+    #endregion
 }
