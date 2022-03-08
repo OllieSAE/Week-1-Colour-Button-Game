@@ -14,13 +14,16 @@ public class PerlinTerrain : MonoBehaviour
     
     [SerializeField] public static float noiseScale = 0.15f;
     [SerializeField] public static float threshold = 0.5f;
-    
+    public static float sandThreshold = 0.5f;
+    public static float waterThreshold = -0.75f;
+
     void Start()
     {
         //toggle between GenerateCube() and GenerateTerrain() to look at an individual cube's properties or all the cubes
         
         //GenerateCube();
-        GenerateTerrain();
+        Generate2DTerrain();
+        //Generate3DTerrain();
         foreach (Transform child in transform)
         {
             cubes.Add(child.gameObject);
@@ -45,7 +48,42 @@ public class PerlinTerrain : MonoBehaviour
         return ABC / 6f;
     }
 
-    void GenerateTerrain()
+
+    void Generate2DTerrain()
+    {
+        for (int i = 0; i <= 2*cubeCount; i++)
+        {
+            for (int j = 0; j <= 2 * cubeCount; j++)
+            {
+                float noiseValue = (float)NoiseS3D.Noise(i*noiseScale, j*noiseScale);
+                
+                if (noiseValue >= sandThreshold)
+                {
+                    GameObject go = Instantiate(cubePrefab);
+                    go.transform.parent = gameObject.transform;
+                    go.transform.position = new Vector3(i, 0, j);
+                    go.GetComponent<Renderer>().material.color = Color.yellow;
+                }
+                else if (noiseValue >= waterThreshold)
+                {
+                    GameObject go = Instantiate(cubePrefab);
+                    go.transform.parent = gameObject.transform;
+                    go.transform.position = new Vector3(i, 0, j);
+                    go.GetComponent<Renderer>().material.color = Color.blue;
+                }
+                else
+                {
+                    GameObject go = Instantiate(cubePrefab);
+                    go.transform.parent = gameObject.transform;
+                    go.transform.position = new Vector3(i, 0, j);
+                    go.GetComponent<Renderer>().material.color = Color.green;
+                }
+
+                print("" + noiseValue);
+            }
+        }
+    }
+    void Generate3DTerrain()
     {
         for (int i = 0; i <= 2*cubeCount; i++)
         {
