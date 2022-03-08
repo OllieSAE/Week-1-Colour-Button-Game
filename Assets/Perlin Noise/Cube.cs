@@ -37,11 +37,15 @@ public class Cube : MonoBehaviour
 
         #endregion
         
-        //transform.localScale = new Vector3(Mathf.PerlinNoise(Time.time+uniqueX, 0), Mathf.PerlinNoise(Time.time+uniqueY, 0),Mathf.PerlinNoise(Time.time+uniqueZ, 0));
-
+        //ChangeSize();
         //ChangeColour();
     }
 
+    void ChangeSize()
+    {
+        transform.localScale = new Vector3(Mathf.PerlinNoise(Time.time+uniqueX, 0), Mathf.PerlinNoise(Time.time+uniqueY, 0),Mathf.PerlinNoise(Time.time+uniqueZ, 0));
+    }
+    
     void ChangeColour()
     {
         int R = Random.Range(0, 10);

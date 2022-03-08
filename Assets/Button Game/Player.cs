@@ -14,7 +14,7 @@ public class Player : MonoBehaviour
     
     void Awake()
     {
-        this.GetComponent<GameManager>().SetPlayer(myName, myScore, myKeyCode);
+        this.GetComponentInParent<GameManager>().SetPlayer(myName, myScore, myKeyCode);
     }
     
     public string GetName()

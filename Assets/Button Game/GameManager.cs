@@ -42,10 +42,7 @@ public class GameManager : MonoBehaviour
 
     void Update()
     {
-        //ChangeButtons() calls a Coroutine with a 5sec delay
-        //Does CheckButtons() start AFTER Coroutine finishes, or before?
         ChangeButtons();
-        CheckButtons();
         PlayerInputs();
     }
 
@@ -66,8 +63,6 @@ public class GameManager : MonoBehaviour
             print("" + playerList[i].GetName() + "'s keycode is " + playerList[i].GetKeyCodeName().ToString());
         }
     }
-
-    
 
     void SetupArrays()
     {
@@ -107,12 +102,6 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    void CheckButtons()
-    {
-        GetColour();
-        GetText();
-    }
-
     void PlayerInputs()
     {
         if(currentColour == currentText)
@@ -136,6 +125,7 @@ public class GameManager : MonoBehaviour
     
     IEnumerator ChangeCoroutine()
     {
+        print("coroutine started");
         yield return new WaitForSeconds(5f);
         SetColour();
         SetText();
@@ -146,21 +136,13 @@ public class GameManager : MonoBehaviour
     {
          newColourIndex = Random.Range(0, colours.Length - 1);
          buttonLeft.GetComponent<Image>().color = colours[newColourIndex];
+         currentColour = newColourIndex;
     }
 
     void SetText()
     {
         newTextIndex = Random.Range(0, names.Length - 1);
         buttonLeft.GetComponentInChildren<TextMeshProUGUI>().text = names[newTextIndex];
-    }
-
-    void GetColour()
-    {
-        currentColour = newColourIndex;
-    }
-
-    void GetText()
-    {
         currentText = newTextIndex;
     }
 }
