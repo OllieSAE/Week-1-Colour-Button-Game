@@ -1,8 +1,11 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
+using Random = UnityEngine.Random;
 
 
 public class GameManager : MonoBehaviour
@@ -23,17 +26,32 @@ public class GameManager : MonoBehaviour
 
     private bool pointsAwarded = false;
     
-    public delegate void ScoreDelegate();
-    public static event ScoreDelegate ScoreboardEvent;
+    //public delegate void ScoreDelegate();
+    //public static event ScoreDelegate ScoreboardEvent;
     
     private string myName;
     private int myScore;
     private KeyCode myKeyCode;
 
-    private List<Player> playerList;
+    public List<Player> playerList;
+
+    //public delegate void SetPlayer(string myName, int myScore, KeyCode myKeyCode);
+
+    //public event SetPlayer SetPlayerEvent;
+
+    void Awake()
+    {
+        playerList = new List<Player>();
+        playerList.AddRange(GameObject.FindObjectsOfType<Player>());
+    }
+    private void OnEnable()
+    {
+        
+    }
 
     void Start()
     {
+        //SetPlayerEvent?.Invoke(myName,myScore,myKeyCode);
         SetupArrays();
         SetColour();
         SetText();
@@ -45,7 +63,7 @@ public class GameManager : MonoBehaviour
         ChangeButtons();
         PlayerInputs();
     }
-
+    
     public void SetPlayer(string newMyName, int newMyScore, KeyCode newMyKeyCode)
     {
         myName = newMyName;
@@ -55,9 +73,6 @@ public class GameManager : MonoBehaviour
 
     void SetPlayers()
     {
-        playerList = new List<Player>();
-        playerList.AddRange(GameObject.FindObjectsOfType<Player>());
-
         for (int i = 0; i < playerList.Count; i++)
         {
             print("" + playerList[i].GetName() + "'s keycode is " + playerList[i].GetKeyCodeName().ToString());

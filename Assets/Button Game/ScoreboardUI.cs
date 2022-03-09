@@ -6,24 +6,32 @@ using TMPro;
 
 public class ScoreboardUI : MonoBehaviour
 {
-    public GameObject scoreboardUI;
+    public TextMeshProUGUI textMeshProUGUI;
+    public ScoreboardModel scoreboardModel;
+    public GameManager gameManager;
 
     private string myName;
     private int myScore;
 
     private List<Player> playerList;
 
-    void Start()
+    void OnEnable()
     {
-        playerList = new List<Player>();
-        playerList.AddRange(GameObject.FindObjectsOfType<Player>());
+        scoreboardModel.ScoredPointEvent += UpdateScoreboardUI;
+        playerList = gameManager.playerList;
     }
-    
-    public void UpdateScoreboardUI(string newMyName)
+
+    private void OnDisable()
     {
-        scoreboardUI.GetComponentInChildren<TextMeshProUGUI>().text = "";
+        scoreboardModel.ScoredPointEvent -= UpdateScoreboardUI;
+    }
+
+    public void UpdateScoreboardUI(Player player)
+    {
+        textMeshProUGUI.text = "";
         
-        myName = newMyName;
+        myName = player.myName;
+        
         for (int i = 0; i < playerList.Count; i++)
         {
             if (playerList[i].GetName() == myName)
@@ -34,7 +42,7 @@ public class ScoreboardUI : MonoBehaviour
         
         for (int i = 0; i < playerList.Count; i++)
         {
-            scoreboardUI.GetComponentInChildren<TextMeshProUGUI>().text += "\n" + playerList[i].GetName() + "'s score is " + playerList[i].GetScore();
+            textMeshProUGUI.text += "\n" + playerList[i].GetName() + "'s score is " + playerList[i].GetScore();
         }
     }
 }

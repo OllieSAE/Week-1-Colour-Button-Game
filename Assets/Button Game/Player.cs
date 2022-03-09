@@ -7,14 +7,30 @@ using UnityEngine.UI;
 
 public class Player : MonoBehaviour
 {
-    
     public string myName;
     private int myScore = 0;
     public KeyCode myKeyCode;
+    //public event Action SetPlayerEvent;
+
+    public delegate void SetPlayer(string myName, int myScore, KeyCode myKeyCode);
+    public event SetPlayer SetPlayerEvent;
+
+    public delegate void IScored(Player player);
+
+    public event IScored IScoredEvent;
     
-    void Awake()
+    void Start()
     {
-        this.GetComponentInParent<GameManager>().SetPlayer(myName, myScore, myKeyCode);
+        SetPlayerEvent?.Invoke(myName,myScore,myKeyCode);
+        
+        //this.GetComponentInParent<GameManager>().SetPlayer(myName, myScore, myKeyCode);
+    }
+
+    public void GetDetails()
+    {
+        myName = GetName();
+        myKeyCode = GetKeyCode();
+        myScore = GetScore();
     }
     
     public string GetName()
@@ -37,7 +53,7 @@ public class Player : MonoBehaviour
     
     public void AddScore()
     {
-        GetComponent<ScoreboardUI>().UpdateScoreboardUI(myName);
+        IScoredEvent?.Invoke(this);
     }
 
     public void SetScore()
@@ -52,12 +68,12 @@ public class Player : MonoBehaviour
     
     //Event is currently not implemented
     //Intention was to use this to add score, but did not know how to add parameters to the event to send in player details
-    void OnEnable()
-    {
-        GameManager.ScoreboardEvent += AddScore;
-    }
-    void OnDisable()
-    {
-        GameManager.ScoreboardEvent -= AddScore;
-    }
+    // void OnEnable()
+    // {
+    //     GameManager.ScoreboardEvent += AddScore;
+    // }
+    // void OnDisable()
+    // {
+    //     GameManager.ScoreboardEvent -= AddScore;
+    // }
 }
