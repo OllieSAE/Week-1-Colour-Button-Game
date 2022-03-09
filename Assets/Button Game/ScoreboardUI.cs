@@ -15,31 +15,27 @@ public class ScoreboardUI : MonoBehaviour
 
     private List<Player> playerList;
 
+    //uses Start instead of OnEnable so gameManager has time to generate player list
+    void Start()
+    {
+        playerList = gameManager.playerList;
+    }
     void OnEnable()
     {
         scoreboardModel.ScoredPointEvent += UpdateScoreboardUI;
-        playerList = gameManager.playerList;
+        scoreboardModel.LostPointEvent += UpdateScoreboardUI;
     }
-
     private void OnDisable()
     {
         scoreboardModel.ScoredPointEvent -= UpdateScoreboardUI;
+        scoreboardModel.LostPointEvent -= UpdateScoreboardUI;
     }
 
+    //player parameter not actually used at the moment - the If statement was irrelevant
     public void UpdateScoreboardUI(Player player)
     {
         textMeshProUGUI.text = "";
-        
-        myName = player.myName;
-        
-        for (int i = 0; i < playerList.Count; i++)
-        {
-            if (playerList[i].GetName() == myName)
-            {
-                playerList[i].SetScore();
-            }
-        }
-        
+
         for (int i = 0; i < playerList.Count; i++)
         {
             textMeshProUGUI.text += "\n" + playerList[i].GetName() + "'s score is " + playerList[i].GetScore();

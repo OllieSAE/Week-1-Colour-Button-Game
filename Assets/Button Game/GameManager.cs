@@ -4,30 +4,20 @@ using System.Collections.Generic;
 using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.Serialization;
 using UnityEngine.UI;
 using Random = UnityEngine.Random;
 
 
 public class GameManager : MonoBehaviour
 {
-    public Color[] colours;
-    public string[] names;
-
-    public GameObject buttonLeft;
-
-    private bool colourOff = true;
-    private bool nameOff;
-
-    private int newColourIndex;
-    private int newTextIndex;
-
-    private int currentColour;
-    private int currentText;
-
-    private bool pointsAwarded = false;
+    public ButtonState buttonState;
     
-    //public delegate void ScoreDelegate();
-    //public static event ScoreDelegate ScoreboardEvent;
+    private bool pointsAwarded = true;
+    private bool currentMatch = false;
+    
+    public delegate void SetUpGame();
+    public event SetUpGame SetUpGameEvent;
     
     private string myName;
     private int myScore;
@@ -35,40 +25,28 @@ public class GameManager : MonoBehaviour
 
     public List<Player> playerList;
 
-    //public delegate void SetPlayer(string myName, int myScore, KeyCode myKeyCode);
-
-    //public event SetPlayer SetPlayerEvent;
-
     void Awake()
     {
         playerList = new List<Player>();
         playerList.AddRange(GameObject.FindObjectsOfType<Player>());
+        SetUpGameEvent?.Invoke();
+        buttonState.ButtonMatchEvent += NewMatch;
+        buttonState.ButtonFailEvent += NewFail;
     }
-    private void OnEnable()
-    {
-        
-    }
-
     void Start()
     {
-        //SetPlayerEvent?.Invoke(myName,myScore,myKeyCode);
-        SetupArrays();
-        SetColour();
-        SetText();
         SetPlayers();
     }
+    void OnDisable()
+    {
+        buttonState.ButtonMatchEvent -= NewMatch;
+        buttonState.ButtonFailEvent -= NewFail;
+    }
+    
 
     void Update()
     {
-        ChangeButtons();
         PlayerInputs();
-    }
-    
-    public void SetPlayer(string newMyName, int newMyScore, KeyCode newMyKeyCode)
-    {
-        myName = newMyName;
-        myScore = newMyScore;
-        myKeyCode = newMyKeyCode;
     }
 
     void SetPlayers()
@@ -79,85 +57,36 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    void SetupArrays()
+    void NewMatch()
     {
-        colours = new Color[6];
-        names = new string[6];
-
-        colours[0] = new Color(1,0,0,1);
-        colours[1] = new Color(0,1,0,1);
-        colours[2] = new Color(0,0,1,1);
-        colours[3] = new Color(1,0.92f,0.016f,1);
-        colours[4] = new Color(0,1,1,1);
-        colours[5] = new Color(1,0,1,1);
-        
-        names[0] = "red";
-        names[1] = "green";
-        names[2] = "blue";
-        names[3] = "yellow";
-        names[4] = "cyan";
-        names[5] = "magenta";
-        
-        foreach (Color colour in colours)
-        {
-            //print("colour " + colour);
-        }
-        foreach (string name in names)
-        {
-            //print("name " + name);
-        }
-    }
-
-    void ChangeButtons()
-    {
-        if (colourOff)
-        {
-            colourOff = false;
-            StartCoroutine(ChangeCoroutine());
-        }
-    }
-
-    void PlayerInputs()
-    {
-        if(currentColour == currentText)
-        {
-            print("match between " + currentColour + " and " + currentText);
-            for (int i = 0; i < playerList.Count; i++)
-            {
-                if (Input.GetKeyDown(playerList[i].GetKeyCode()) && (!pointsAwarded))
-                {
-                    pointsAwarded = true;
-                    playerList[i].AddScore();
-                    //if (ScoreboardEvent != null)
-                    //{
-                        //ScoreboardEvent();
-                        //print("player name that just scored: " + playerList[i].GetName());
-                    //}
-                }
-            }
-        }
-    }
-    
-    IEnumerator ChangeCoroutine()
-    {
-        print("coroutine started");
-        yield return new WaitForSeconds(5f);
-        SetColour();
-        SetText();
-        colourOff = true;
+        currentMatch = true;
         pointsAwarded = false;
     }
-    void SetColour()
-    {
-         newColourIndex = Random.Range(0, colours.Length - 1);
-         buttonLeft.GetComponent<Image>().color = colours[newColourIndex];
-         currentColour = newColourIndex;
-    }
 
-    void SetText()
+    void NewFail()
     {
-        newTextIndex = Random.Range(0, names.Length - 1);
-        buttonLeft.GetComponentInChildren<TextMeshProUGUI>().text = names[newTextIndex];
-        currentText = newTextIndex;
+        currentMatch = false;
+        pointsAwarded = false;
+    }
+    void PlayerInputs()
+    {
+        for (int i = 0; i < playerList.Count; i++)
+        {
+            if (Input.GetKeyDown(playerList[i].GetKeyCode()) && currentMatch && (!pointsAwarded))
+            {
+                pointsAwarded = true;
+                currentMatch = false;
+                playerList[i].GainScore();
+            }
+            else if (Input.GetKeyDown(playerList[i].GetKeyCode()) && (pointsAwarded))
+            {
+                print(""+playerList[i].myName + ", you're too slow, points have already been awarded for this round!");
+            }
+            else if (Input.GetKeyDown(playerList[i].GetKeyCode()) && (!currentMatch) && (!pointsAwarded))
+            {
+                playerList[i].LoseScore();
+                print(""+playerList[i].myName + ", you dun goofed, you lose a point!");
+            }
+        }
     }
 }

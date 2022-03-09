@@ -161,7 +161,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 3.4, y: 115.6}
+  m_AnchoredPosition: {x: 3.4, y: 96}
   m_SizeDelta: {x: 160, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &164910764
@@ -375,6 +375,7 @@ GameObject:
   - component: {fileID: 623151091}
   - component: {fileID: 623151090}
   - component: {fileID: 623151089}
+  - component: {fileID: 623151092}
   m_Layer: 5
   m_Name: ButtonLeft
   m_TagString: Untagged
@@ -485,6 +486,22 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 623151087}
   m_CullTransparentMesh: 1
+--- !u!114 &623151092
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 623151087}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9aa0aa5f07a35ab4abefbee4d2340aa2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  colours: []
+  names: []
+  gameManager: {fileID: 658789358}
+  buttonLeft: {fileID: 623151087}
 --- !u!1 &658789357
 GameObject:
   m_ObjectHideFlags: 0
@@ -514,9 +531,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 21894c033179e8149a1dc1d244370d6d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  colours: []
-  names: []
-  buttonLeft: {fileID: 623151087}
+  buttonState: {fileID: 623151092}
   playerList: []
 --- !u!4 &658789359
 Transform:
@@ -594,7 +609,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 
+  m_text: Get Ready!
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}

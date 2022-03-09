@@ -10,14 +10,17 @@ public class ScoreboardModel : MonoBehaviour
     public delegate void Scoreboard(Player player);
 
     public event Scoreboard ScoredPointEvent;
+    public event Scoreboard LostPointEvent;
     private List<Player> playerList;
 
-    private void OnEnable()
+    //uses Start instead of OnEnable so gameManager has time to generate player list
+    void Start()
     {
         playerList = gameManager.playerList;
         foreach (Player player in playerList)
         {
             player.IScoredEvent += AddScore;
+            player.ILostScoreEvent += MinusScore;
         }
     }
     
@@ -26,11 +29,17 @@ public class ScoreboardModel : MonoBehaviour
         foreach (Player player in playerList)
         {
             player.IScoredEvent -= AddScore;
+            player.ILostScoreEvent -= MinusScore;
         }
     }
 
     public void AddScore(Player player)
     {
         ScoredPointEvent?.Invoke(player);
+    }
+
+    public void MinusScore(Player player)
+    {
+        LostPointEvent?.Invoke(player);
     }
 }

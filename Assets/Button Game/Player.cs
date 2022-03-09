@@ -10,36 +10,42 @@ public class Player : MonoBehaviour
     public string myName;
     private int myScore = 0;
     public KeyCode myKeyCode;
-    //public event Action SetPlayerEvent;
-
-    public delegate void SetPlayer(string myName, int myScore, KeyCode myKeyCode);
-    public event SetPlayer SetPlayerEvent;
-
-    public delegate void IScored(Player player);
-
-    public event IScored IScoredEvent;
     
-    void Start()
+    public delegate void IScored(Player player);
+    public event IScored IScoredEvent;
+    public event IScored ILostScoreEvent;
+
+    public void GainScore()
     {
-        SetPlayerEvent?.Invoke(myName,myScore,myKeyCode);
-        
-        //this.GetComponentInParent<GameManager>().SetPlayer(myName, myScore, myKeyCode);
+        myScore += 1;
+        IScoredEvent?.Invoke(this);
     }
 
-    public void GetDetails()
+    public void LoseScore()
     {
-        myName = GetName();
-        myKeyCode = GetKeyCode();
-        myScore = GetScore();
+        myScore -= 1;
+        ILostScoreEvent?.Invoke(this);
+    }
+
+    #region Getters
+
+    public int GetScore()
+    {
+        if (myScore >= 0)
+        {
+            return myScore;
+        }
+        else
+        {
+            myScore = 0;
+            return myScore;
+        }
     }
     
     public string GetName()
     {
         return myName;
     }
-    //right click helper icon on left
-    //encapsulate field
-    //turn it to property!
 
     public string GetKeyCodeName()
     {
@@ -50,30 +56,6 @@ public class Player : MonoBehaviour
     {
         return myKeyCode;
     }
-    
-    public void AddScore()
-    {
-        IScoredEvent?.Invoke(this);
-    }
 
-    public void SetScore()
-    {
-        myScore += 1;
-    }
-
-    public int GetScore()
-    {
-        return myScore;
-    }
-    
-    //Event is currently not implemented
-    //Intention was to use this to add score, but did not know how to add parameters to the event to send in player details
-    // void OnEnable()
-    // {
-    //     GameManager.ScoreboardEvent += AddScore;
-    // }
-    // void OnDisable()
-    // {
-    //     GameManager.ScoreboardEvent -= AddScore;
-    // }
+    #endregion
 }
