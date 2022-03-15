@@ -7,7 +7,7 @@ public class Wheel : MonoBehaviour
 {
     public bool grounded;
     public Rigidbody rb;
-    public RectangleCar rectangleCar;
+    public VehicleBase vehicleBase;
     public Thruster thruster;
     private Vector3 localVelocity;
     private Vector3 myPos;
@@ -22,8 +22,8 @@ public class Wheel : MonoBehaviour
     {
         if (grounded)
         {
-            //rb.AddRelativeForce(0, 0, rectangleCar.forwardSpeed/4);
-            rb.AddForceAtPosition(new Vector3(0,0,1),myPos);
+            rb.AddRelativeForce(0, 0, vehicleBase.forwardSpeed/4);
+            //rb.AddForceAtPosition(new Vector3(0,0,rectangleCar.forwardSpeed),myPos);
         }
     }
 
@@ -31,8 +31,8 @@ public class Wheel : MonoBehaviour
     {
         if (grounded)
         {
-            //rb.AddRelativeForce(0,0,-rectangleCar.forwardSpeed/4);
-            rb.AddForceAtPosition(new Vector3(0,0,-1),myPos);
+            rb.AddRelativeForce(0,0,-vehicleBase.forwardSpeed/4);
+            //rb.AddForceAtPosition(new Vector3(0,0,-rectangleCar.forwardSpeed),myPos);
         }
     }
 
@@ -41,7 +41,7 @@ public class Wheel : MonoBehaviour
     {
         if (grounded)
         {
-            //rb.AddRelativeTorque(0, -rectangleCar.turnSpeed/4,0);
+            rb.AddRelativeTorque(0, -vehicleBase.turnSpeed/4,0);
             
             //rb.AddRelativeForce(-rectangleCar.localVelocity/5);
             if (transform.localPosition.z >= 0)
@@ -56,7 +56,7 @@ public class Wheel : MonoBehaviour
     {
         if (grounded)
         {
-            //rb.AddRelativeTorque(0, rectangleCar.turnSpeed/4,0);
+            rb.AddRelativeTorque(0, vehicleBase.turnSpeed/4,0);
             
             //rb.AddRelativeForce(-rectangleCar.localVelocity/5);
             if (transform.localPosition.z >= 0)

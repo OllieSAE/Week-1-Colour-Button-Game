@@ -6,23 +6,40 @@ using UnityEngine;
 
 public class Driver : MonoBehaviour
 {
-    public RectangleCar rectangleCar;
     public KeyCode forward, backward, left, right;
     public Wheel wheel1, wheel2, wheel3, wheel4;
     private List<Wheel> wheels;
-
-    public GameObject driver;
+    public VehicleBase currentCar;
+    public VehicleBase newCar;
+    public VehicleManager vehicleManager;
+    
     // Start is called before the first frame update
     void Start()
     {
-        wheels = new List<Wheel>();
-        wheels.Add(wheel1);
-        wheels.Add(wheel2);
-        wheels.Add(wheel3);
-        wheels.Add(wheel4);
+        foreach (VehicleBase car in vehicleManager.vehicles)
+        {
+            if (car != currentCar)
+            {
+                newCar = car;
+            }
+        }
+
+        currentCar = newCar;
+        wheels = currentCar.wheels;
+        print(wheels);
+        print(currentCar);
     }
 
     void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Tab))
+        {
+            ChangeCar();
+        }
+        Drive();
+    }
+
+    void Drive()
     {
         if (Input.GetKey(forward))
         {
@@ -63,5 +80,26 @@ public class Driver : MonoBehaviour
                 wheel.Straight();
             }
         }
+    }
+
+    void ChangeCar()
+    {
+        currentCar.Activate();
+        foreach (VehicleBase car in vehicleManager.vehicles)
+        {
+            if (car != currentCar)
+            {
+                newCar = car;
+            }
+        }
+
+        currentCar = newCar;
+        wheels = currentCar.wheels;
+        print(currentCar);
+    }
+    
+    private void OnCollisionEnter(Collision other)
+    {
+        currentCar = other.gameObject.GetComponent<VehicleBase>();
     }
 }

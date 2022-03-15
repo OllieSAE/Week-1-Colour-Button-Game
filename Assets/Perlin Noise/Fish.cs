@@ -11,6 +11,8 @@ public class Fish : MonoBehaviour
     private Vector3 mousePos;
     public float moveSpeed = 0.05f;
     public float respawnTimer = 2f;
+
+    private UnityEngine.Camera cam;
     
     private bool isSafe;
 
@@ -19,6 +21,7 @@ public class Fish : MonoBehaviour
         safetyZone.enteredSafetyEvent += IsSafe;
         safetyZone.exitSafetyEvent += IsHunted;
         shark.ateTheFishEvent += Respawn;
+        cam = UnityEngine.Camera.main;
     }
 
     private void OnDisable()
@@ -31,6 +34,15 @@ public class Fish : MonoBehaviour
     void FixedUpdate()
     {
         mousePos = Input.mousePosition;
+        
+        // Event currentEvent = Event.current;
+        // Vector2 point = new Vector2();
+        //
+        // point.x = currentEvent.mousePosition.x;
+        // point.y = cam.pixelHeight - currentEvent.mousePosition.y;
+
+        mousePos = cam.ScreenToWorldPoint(new Vector3(mousePos.x, mousePos.y, cam.nearClipPlane));
+        
         if (Input.GetButtonDown("Fire1"))
         {
             print(mousePos);

@@ -7,7 +7,7 @@ using UnityEngine.UIElements;
 public class Thruster : MonoBehaviour
 {
     public RaycastHit hit;
-    public RectangleCar rectangleCar;
+    public VehicleBase vehicleBase;
     public float wheelDiameter;
     public Rigidbody rb;
 
@@ -29,7 +29,7 @@ public class Thruster : MonoBehaviour
     void Update()
     {
         force = wheelDiameter;
-        maxForce = rectangleCar.maxForce;
+        maxForce = vehicleBase.maxForce;
         force *= maxForce;
         myPos = transform.position;
     }
