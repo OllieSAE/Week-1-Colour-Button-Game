@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 2175649633527241354}
   - component: {fileID: 2175649633527241399}
   m_Layer: 0
-  m_Name: Wheel
+  m_Name: Wheel4
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -230,7 +230,7 @@ GameObject:
   - component: {fileID: 2175649633891452608}
   - component: {fileID: 2175649633891452621}
   m_Layer: 0
-  m_Name: Wheel
+  m_Name: Wheel2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -346,7 +346,7 @@ GameObject:
   - component: {fileID: 2175649633995452300}
   - component: {fileID: 2175649633995452297}
   m_Layer: 0
-  m_Name: Wheel
+  m_Name: Wheel3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -461,7 +461,7 @@ GameObject:
   - component: {fileID: 2175649634046528684}
   - component: {fileID: 2175649634046528685}
   - component: {fileID: 2175649634046528680}
-  - component: {fileID: 7542555785865042615}
+  - component: {fileID: 6550082900783324029}
   m_Layer: 0
   m_Name: OtherCar
   m_TagString: Untagged
@@ -567,7 +567,7 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 1
---- !u!114 &7542555785865042615
+--- !u!114 &6550082900783324029
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -576,14 +576,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 2175649634046528686}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 073dfb0b69ccbd644bd288adce76be5e, type: 3}
+  m_Script: {fileID: 11500000, guid: 91d60c42dc462044b8d385f62b0b373e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  forwardSpeed: 0
-  turnSpeed: 0
-  localVelocity: {x: 0, y: 0, z: 0}
-  force: 0
-  maxForce: 0
 --- !u!1 &2175649634081891275
 GameObject:
   m_ObjectHideFlags: 0
@@ -698,7 +693,7 @@ GameObject:
   - component: {fileID: 2175649634872031583}
   - component: {fileID: 2175649634872031580}
   m_Layer: 0
-  m_Name: Wheel
+  m_Name: Wheel1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

@@ -171,7 +171,7 @@ MonoBehaviour:
   wheel2: {fileID: 369318874}
   wheel3: {fileID: 802009758}
   wheel4: {fileID: 64341920}
-  currentCar: {fileID: 549523902}
+  currentCar: {fileID: 0}
   newCar: {fileID: 0}
   vehicleManager: {fileID: 2074928107}
 --- !u!4 &217194123
@@ -1046,7 +1046,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   vehicles:
   - {fileID: 549523902}
-  - {fileID: 5396721539147871774}
+  - {fileID: 5396721539147871768}
 --- !u!4 &2074928108
 Transform:
   m_ObjectHideFlags: 0
@@ -1062,15 +1062,15 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 11
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &5396721539147871774 stripped
+--- !u!114 &5396721539147871768 stripped
 MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 6550082900783324029, guid: c4b6d1530220ad24ea7d96bf1ca3c18d, type: 3}
+  m_CorrespondingSourceObject: {fileID: 7542555785865042615, guid: c4b6d1530220ad24ea7d96bf1ca3c18d, type: 3}
   m_PrefabInstance: {fileID: 6112638641141906107}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 91d60c42dc462044b8d385f62b0b373e, type: 3}
+  m_Script: {fileID: 11500000, guid: 073dfb0b69ccbd644bd288adce76be5e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!114 &5396721539265008946 stripped
@@ -1157,10 +1157,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 5396721540793037699, guid: 58353479441177943825a0b341c623b8, type: 3}
-      propertyPath: forwardSpeed
-      value: 20
-      objectReference: {fileID: 0}
     - target: {fileID: 5396721540793037700, guid: 58353479441177943825a0b341c623b8, type: 3}
       propertyPath: m_Name
       value: RectangleCar
@@ -1185,26 +1181,38 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2175649633527241356, guid: c4b6d1530220ad24ea7d96bf1ca3c18d, type: 3}
+      propertyPath: m_Name
+      value: Wheel4
+      objectReference: {fileID: 0}
     - target: {fileID: 2175649633527241399, guid: c4b6d1530220ad24ea7d96bf1ca3c18d, type: 3}
       propertyPath: vehicleBase
       value: 
-      objectReference: {fileID: 5396721539147871774}
+      objectReference: {fileID: 0}
     - target: {fileID: 2175649633766365326, guid: c4b6d1530220ad24ea7d96bf1ca3c18d, type: 3}
       propertyPath: vehicleBase
       value: 
-      objectReference: {fileID: 5396721539147871774}
+      objectReference: {fileID: 5396721539147871768}
     - target: {fileID: 2175649633891258059, guid: c4b6d1530220ad24ea7d96bf1ca3c18d, type: 3}
       propertyPath: vehicleBase
       value: 
-      objectReference: {fileID: 5396721539147871774}
+      objectReference: {fileID: 5396721539147871768}
+    - target: {fileID: 2175649633891452610, guid: c4b6d1530220ad24ea7d96bf1ca3c18d, type: 3}
+      propertyPath: m_Name
+      value: Wheel2
+      objectReference: {fileID: 0}
     - target: {fileID: 2175649633891452621, guid: c4b6d1530220ad24ea7d96bf1ca3c18d, type: 3}
       propertyPath: vehicleBase
       value: 
-      objectReference: {fileID: 5396721539147871774}
+      objectReference: {fileID: 0}
     - target: {fileID: 2175649633995452297, guid: c4b6d1530220ad24ea7d96bf1ca3c18d, type: 3}
       propertyPath: vehicleBase
       value: 
-      objectReference: {fileID: 5396721539147871774}
+      objectReference: {fileID: 0}
+    - target: {fileID: 2175649633995452302, guid: c4b6d1530220ad24ea7d96bf1ca3c18d, type: 3}
+      propertyPath: m_Name
+      value: Wheel3
+      objectReference: {fileID: 0}
     - target: {fileID: 2175649634046528682, guid: c4b6d1530220ad24ea7d96bf1ca3c18d, type: 3}
       propertyPath: m_RootOrder
       value: 10
@@ -1256,40 +1264,44 @@ PrefabInstance:
     - target: {fileID: 2175649634081891273, guid: c4b6d1530220ad24ea7d96bf1ca3c18d, type: 3}
       propertyPath: vehicleBase
       value: 
-      objectReference: {fileID: 5396721539147871774}
+      objectReference: {fileID: 5396721539147871768}
     - target: {fileID: 2175649634205824812, guid: c4b6d1530220ad24ea7d96bf1ca3c18d, type: 3}
       propertyPath: vehicleBase
       value: 
-      objectReference: {fileID: 5396721539147871774}
+      objectReference: {fileID: 5396721539147871768}
+    - target: {fileID: 2175649634872031569, guid: c4b6d1530220ad24ea7d96bf1ca3c18d, type: 3}
+      propertyPath: m_Name
+      value: Wheel1
+      objectReference: {fileID: 0}
     - target: {fileID: 2175649634872031580, guid: c4b6d1530220ad24ea7d96bf1ca3c18d, type: 3}
       propertyPath: vehicleBase
       value: 
-      objectReference: {fileID: 5396721539147871774}
-    - target: {fileID: 6550082900783324029, guid: c4b6d1530220ad24ea7d96bf1ca3c18d, type: 3}
+      objectReference: {fileID: 0}
+    - target: {fileID: 7542555785865042615, guid: c4b6d1530220ad24ea7d96bf1ca3c18d, type: 3}
       propertyPath: wheel1
       value: 
       objectReference: {fileID: 5396721540544300007}
-    - target: {fileID: 6550082900783324029, guid: c4b6d1530220ad24ea7d96bf1ca3c18d, type: 3}
+    - target: {fileID: 7542555785865042615, guid: c4b6d1530220ad24ea7d96bf1ca3c18d, type: 3}
       propertyPath: wheel2
       value: 
       objectReference: {fileID: 5396721539378445430}
-    - target: {fileID: 6550082900783324029, guid: c4b6d1530220ad24ea7d96bf1ca3c18d, type: 3}
+    - target: {fileID: 7542555785865042615, guid: c4b6d1530220ad24ea7d96bf1ca3c18d, type: 3}
       propertyPath: wheel3
       value: 
       objectReference: {fileID: 5396721539265008946}
-    - target: {fileID: 6550082900783324029, guid: c4b6d1530220ad24ea7d96bf1ca3c18d, type: 3}
+    - target: {fileID: 7542555785865042615, guid: c4b6d1530220ad24ea7d96bf1ca3c18d, type: 3}
       propertyPath: wheel4
       value: 
       objectReference: {fileID: 5396721539734265868}
-    - target: {fileID: 6550082900783324029, guid: c4b6d1530220ad24ea7d96bf1ca3c18d, type: 3}
+    - target: {fileID: 7542555785865042615, guid: c4b6d1530220ad24ea7d96bf1ca3c18d, type: 3}
       propertyPath: maxForce
       value: 5
       objectReference: {fileID: 0}
-    - target: {fileID: 6550082900783324029, guid: c4b6d1530220ad24ea7d96bf1ca3c18d, type: 3}
+    - target: {fileID: 7542555785865042615, guid: c4b6d1530220ad24ea7d96bf1ca3c18d, type: 3}
       propertyPath: turnSpeed
       value: 2
       objectReference: {fileID: 0}
-    - target: {fileID: 6550082900783324029, guid: c4b6d1530220ad24ea7d96bf1ca3c18d, type: 3}
+    - target: {fileID: 7542555785865042615, guid: c4b6d1530220ad24ea7d96bf1ca3c18d, type: 3}
       propertyPath: forwardSpeed
       value: 10
       objectReference: {fileID: 0}

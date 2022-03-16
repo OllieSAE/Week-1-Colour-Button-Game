@@ -36,6 +36,15 @@ public class VehicleBase : MonoBehaviour
     {
         foreach (Wheel wheel in wheels)
         {
+            // if (enabled)
+            // {
+            //     enabled = false;
+            // }
+            // else
+            // {
+            //     enabled = true;
+            // }
+
             enabled = true;
         }
     }

@@ -43,7 +43,7 @@ public class Driver : MonoBehaviour
     {
         if (Input.GetKey(forward))
         {
-            foreach (Wheel wheel in wheels)
+            foreach (Wheel wheel in currentCar.wheels)
             {
                 wheel.Forward();
             }
