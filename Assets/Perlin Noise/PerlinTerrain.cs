@@ -28,7 +28,7 @@ public class PerlinTerrain : MonoBehaviour
         {
             cubes.Add(child.gameObject);
         }
-        print("Cube count = " +cubes.Count);
+        //print("Cube count = " +cubes.Count);
     }
 
     public static float Perlin3D(float x, float y, float z)
@@ -72,6 +72,7 @@ public class PerlinTerrain : MonoBehaviour
                     go.GetComponent<Renderer>().material.color = Color.blue;
                 }
                 else
+                //noiseValue = coral/seaweed value
                 {
                     GameObject go = Instantiate(cubePrefab);
                     go.transform.parent = gameObject.transform;
@@ -79,7 +80,7 @@ public class PerlinTerrain : MonoBehaviour
                     go.GetComponent<Renderer>().material.color = Color.green;
                 }
 
-                print("" + noiseValue);
+                //print("noise value = " + noiseValue);
             }
         }
     }
