@@ -37,8 +37,8 @@ public class Cube : MonoBehaviour
 
         #endregion
         
-        //ChangeSize();
-        //ChangeColour();
+        ChangeSize();
+        ChangeColour();
     }
 
     void Beachify()

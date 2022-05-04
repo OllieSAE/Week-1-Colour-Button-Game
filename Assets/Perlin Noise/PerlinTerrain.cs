@@ -22,8 +22,8 @@ public class PerlinTerrain : MonoBehaviour
         //toggle between GenerateCube() and GenerateTerrain() to look at an individual cube's properties or all the cubes
         
         //GenerateCube();
-        Generate2DTerrain();
-        //Generate3DTerrain();
+        //Generate2DTerrain();
+        Generate3DTerrain();
         foreach (Transform child in transform)
         {
             cubes.Add(child.gameObject);
