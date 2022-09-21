@@ -12,20 +12,20 @@ public class Player : NetworkBehaviour
     private int myScore = 0;
     public KeyCode myKeyCode;
     
-    public delegate void IScored(Player player);
+    public delegate void IScored();
     public event IScored IScoredEvent;
     public event IScored ILostScoreEvent;
 
     public void GainScore()
     {
         myScore += 1;
-        IScoredEvent?.Invoke(this);
+        IScoredEvent?.Invoke();
     }
 
     public void LoseScore()
     {
         myScore -= 1;
-        ILostScoreEvent?.Invoke(this);
+        ILostScoreEvent?.Invoke();
     }
 
     #region Getters

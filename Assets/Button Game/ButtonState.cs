@@ -41,7 +41,7 @@ public class ButtonState : NetworkBehaviour
     {
         image = buttonLeft.GetComponent<Image>();
         textMeshProUGUI = buttonLeft.GetComponentInChildren<TextMeshProUGUI>();
-        ChangeButtonState();
+        //ChangeButtonState();
     }
 
     void Update()
@@ -50,7 +50,8 @@ public class ButtonState : NetworkBehaviour
         
     }
 
-    void ChangeButtonState()
+
+    public void ChangeButtonState()
     {
         if (colourOff)
         {
@@ -74,13 +75,33 @@ public class ButtonState : NetworkBehaviour
         if (currentColour == currentText)
         {
             ButtonMatchEvent?.Invoke();
+            CallClientMatchEvent();
         }
 
         if (currentColour != currentText)
         {
             ButtonFailEvent?.Invoke();
+            CallClientFailEvent();
         }
     }
+    
+    void CallClientMatchEvent() //this is not working as intended
+    {
+        if (IsClient)
+        {
+            ButtonMatchEvent?.Invoke();
+        }
+    }
+
+    void CallClientFailEvent() //this is not working as intended
+    {
+        if (IsClient)
+        {
+            ButtonFailEvent?.Invoke();
+            print("button fail event");
+        }
+    }
+    
     void SetupArrays()
     {
        SetColourArray();
@@ -116,17 +137,37 @@ public class ButtonState : NetworkBehaviour
             //print("name " + name);
         }
     }
+    
+    
     void ChangeColour()
     {
         newColourIndex = Random.Range(0, colours.Length - 1);
-        image.color = colours[newColourIndex];
-        currentColour = newColourIndex;
+        if(IsServer) SetClientColourClientRpc(newColourIndex);
+        
+        //image.color = colours[newColourIndex];
+        //currentColour = newColourIndex;
     }
 
     void ChangeText()
     {
         newTextIndex = Random.Range(0, names.Length - 1);
-        textMeshProUGUI.text = names[newTextIndex];
-        currentText = newTextIndex;
+        if(IsServer) SetClientTextClientRpc(newTextIndex);
+        
+        //textMeshProUGUI.text = names[newTextIndex];
+        //currentText = newTextIndex;
+    }
+
+    [ClientRpc]
+    void SetClientColourClientRpc(int index)
+    {
+        image.color = colours[index];
+        currentColour = index;
+    }
+
+    [ClientRpc]
+    void SetClientTextClientRpc(int index)
+    {
+        textMeshProUGUI.text = names[index];
+        currentText = index;
     }
 }

@@ -19,6 +19,9 @@ public class GameManager : NetworkBehaviour
     
     public delegate void SetUpGame();
     public event SetUpGame SetUpGameEvent;
+
+    public delegate void StartGame();
+    public static event StartGame StartGameEvent;
     
     private string myName;
     private int myScore;
@@ -29,7 +32,7 @@ public class GameManager : NetworkBehaviour
     void Awake()
     {
         playerList = new List<Player>();
-        playerList.AddRange(GameObject.FindObjectsOfType<Player>());
+        
         SetUpGameEvent?.Invoke();
         buttonState.ButtonMatchEvent += NewMatch;
         buttonState.ButtonFailEvent += NewFail;
@@ -38,10 +41,25 @@ public class GameManager : NetworkBehaviour
     {
         SetPlayers();
     }
+    
     void OnDisable()
     {
         buttonState.ButtonMatchEvent -= NewMatch;
         buttonState.ButtonFailEvent -= NewFail;
+    }
+    
+    private void OnGUI()
+    {
+        if (GUILayout.Button("Start"))
+        {
+            playerList.AddRange(GameObject.FindObjectsOfType<Player>());
+            if(IsServer) buttonState.ChangeButtonState();
+            StartGameEvent?.Invoke();
+            
+            //options instead of static event
+            //NetworkManager.Singleton.ConnectedClients;
+            //NetworkManager.Singleton.OnServerStarted;
+        }
     }
     
 

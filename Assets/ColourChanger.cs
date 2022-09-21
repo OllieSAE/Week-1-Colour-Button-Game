@@ -27,17 +27,24 @@ public class ColourChanger : NetworkBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            PickRandomColour();
+            if (IsServer)
+            {
+                newColourIndex = Random.Range(0, colours.Length - 1);
+                ChangeColourClientRpc(newColourIndex);
+            }
+            
+            if (IsClient && !IsServer)
+            {
+                RequestColourChangeServerRpc();
+            }
         }
     }
 
-    private void PickRandomColour()
+    [ServerRpc(RequireOwnership = false)]
+    private void RequestColourChangeServerRpc()
     {
-        if (IsServer)
-        {
-            newColourIndex = Random.Range(0, colours.Length - 1);
-            ChangeColourClientRpc(newColourIndex);
-        }
+        newColourIndex = Random.Range(0, colours.Length - 1);
+        ChangeColourClientRpc(newColourIndex);
     }
 
     [ClientRpc]

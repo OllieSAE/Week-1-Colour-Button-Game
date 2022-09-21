@@ -8,7 +8,7 @@ public class ScoreboardModel : NetworkBehaviour
 {
     public GameManager gameManager;
 
-    public delegate void Scoreboard(Player player);
+    public delegate void Scoreboard();
 
     public event Scoreboard ScoredPointEvent;
     public event Scoreboard LostPointEvent;
@@ -38,21 +38,21 @@ public class ScoreboardModel : NetworkBehaviour
         }
     }
 
-    public void AddScore(Player player)
+    public void AddScore()
     {
         if (IsServer)
         {
             
         }
-        ScoredPointEvent?.Invoke(player);
+        ScoredPointEvent?.Invoke();
     }
 
-    public void MinusScore(Player player)
+    public void MinusScore()
     {
         if (IsServer)
         {
             
         }
-        LostPointEvent?.Invoke(player);
+        LostPointEvent?.Invoke();
     }
 }
