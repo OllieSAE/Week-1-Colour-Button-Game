@@ -14,6 +14,8 @@ public class ButtonState : MonoBehaviour
 
     public GameManager gameManager;
     public GameObject buttonLeft;
+    public Image image;
+    public TextMeshProUGUI textMeshProUGUI;
     
     private bool colourOff = true;
 
@@ -34,9 +36,17 @@ public class ButtonState : MonoBehaviour
         buttonLeft = this.gameObject;
     }
 
+    private void Start()
+    {
+        image = buttonLeft.GetComponent<Image>();
+        textMeshProUGUI = buttonLeft.GetComponentInChildren<TextMeshProUGUI>();
+        ChangeButtonState();
+    }
+
     void Update()
     {
-        ChangeButtonState();
+        //inefficient
+        
     }
 
     void ChangeButtonState()
@@ -55,6 +65,7 @@ public class ButtonState : MonoBehaviour
         ChangeText();
         colourOff = true;
         CheckButtonState();
+        ChangeButtonState();
     }
 
     void CheckButtonState()
@@ -107,14 +118,14 @@ public class ButtonState : MonoBehaviour
     void ChangeColour()
     {
         newColourIndex = Random.Range(0, colours.Length - 1);
-        buttonLeft.GetComponent<Image>().color = colours[newColourIndex];
+        image.color = colours[newColourIndex];
         currentColour = newColourIndex;
     }
 
     void ChangeText()
     {
         newTextIndex = Random.Range(0, names.Length - 1);
-        buttonLeft.GetComponentInChildren<TextMeshProUGUI>().text = names[newTextIndex];
+        textMeshProUGUI.text = names[newTextIndex];
         currentText = newTextIndex;
     }
 }
