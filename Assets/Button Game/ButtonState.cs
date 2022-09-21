@@ -2,12 +2,13 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
+using Unity.Netcode;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 using Random = UnityEngine.Random;
 
-public class ButtonState : MonoBehaviour
+public class ButtonState : NetworkBehaviour
 {
     public Color[] colours;
     public string[] names;

@@ -3,8 +3,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using Unity.Netcode;
 
-public class ScoreboardUI : MonoBehaviour
+public class ScoreboardUI : NetworkBehaviour
 {
     public TextMeshProUGUI textMeshProUGUI;
     public ScoreboardModel scoreboardModel;
@@ -34,6 +35,10 @@ public class ScoreboardUI : MonoBehaviour
     //player parameter not actually used at the moment - the If statement was irrelevant
     public void UpdateScoreboardUI(Player player)
     {
+        if (IsClient)
+        {
+            
+        }
         textMeshProUGUI.text = "";
 
         for (int i = 0; i < playerList.Count; i++)

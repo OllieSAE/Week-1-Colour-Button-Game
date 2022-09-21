@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
+using Unity.Netcode;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Serialization;
@@ -9,7 +10,7 @@ using UnityEngine.UI;
 using Random = UnityEngine.Random;
 
 
-public class GameManager : MonoBehaviour
+public class GameManager : NetworkBehaviour
 {
     public ButtonState buttonState;
     
