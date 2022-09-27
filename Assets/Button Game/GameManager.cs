@@ -52,13 +52,28 @@ public class GameManager : NetworkBehaviour
     {
         if (GUILayout.Button("Start"))
         {
+            if (IsClient && !IsServer) return;
+            
             playerList.AddRange(GameObject.FindObjectsOfType<Player>());
+            
             if(IsServer) buttonState.ChangeButtonState();
+            if(IsServer) StartGameClientRpc();
             StartGameEvent?.Invoke();
+            
             
             //options instead of static event
             //NetworkManager.Singleton.ConnectedClients;
             //NetworkManager.Singleton.OnServerStarted;
+        }
+    }
+
+    [ClientRpc]
+    void StartGameClientRpc()
+    {
+        if (!IsServer)
+        {
+            playerList.AddRange(GameObject.FindObjectsOfType<Player>());
+            StartGameEvent?.Invoke();
         }
     }
     

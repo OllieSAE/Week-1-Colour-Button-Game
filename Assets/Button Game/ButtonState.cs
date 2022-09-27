@@ -75,27 +75,31 @@ public class ButtonState : NetworkBehaviour
         if (currentColour == currentText)
         {
             ButtonMatchEvent?.Invoke();
-            CallClientMatchEvent();
+            print("match");
+            CallClientMatchEventClientRpc();
         }
 
         if (currentColour != currentText)
         {
             ButtonFailEvent?.Invoke();
-            CallClientFailEvent();
+            print("fail");
+            CallClientFailEventClientRpc();
         }
     }
     
-    void CallClientMatchEvent() //this is not working as intended
+    [ClientRpc]
+    void CallClientMatchEventClientRpc() //this is not working as intended
     {
-        if (IsClient)
+        if (IsClient && !IsServer)
         {
             ButtonMatchEvent?.Invoke();
         }
     }
 
-    void CallClientFailEvent() //this is not working as intended
+    [ClientRpc]
+    void CallClientFailEventClientRpc() //this is not working as intended
     {
-        if (IsClient)
+        if (IsClient && !IsServer)
         {
             ButtonFailEvent?.Invoke();
             print("button fail event");

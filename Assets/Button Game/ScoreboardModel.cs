@@ -17,6 +17,11 @@ public class ScoreboardModel : NetworkBehaviour
     //uses Start instead of OnEnable so gameManager has time to generate player list
     void Start()
     {
+        GameManager.StartGameEvent += StartSetup;
+    }
+
+    void StartSetup()
+    {
         if (IsServer)
         {
             
@@ -36,6 +41,8 @@ public class ScoreboardModel : NetworkBehaviour
             player.IScoredEvent -= AddScore;
             player.ILostScoreEvent -= MinusScore;
         }
+
+        GameManager.StartGameEvent -= StartSetup;
     }
 
     public void AddScore()

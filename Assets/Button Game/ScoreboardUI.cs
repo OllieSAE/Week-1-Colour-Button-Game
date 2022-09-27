@@ -36,6 +36,8 @@ public class ScoreboardUI : NetworkBehaviour
     }
     private void OnDisable()
     {
+        GameManager.StartGameEvent -= StartSetup;
+        
         scoreboardModel.ScoredPointEvent -= UpdateScoreboardUI;
         scoreboardModel.LostPointEvent -= UpdateScoreboardUI;
     }
@@ -44,9 +46,19 @@ public class ScoreboardUI : NetworkBehaviour
     public void UpdateScoreboardUI()
     {
         playerList = gameManager.playerList;
+        textMeshProUGUI.text = "";
+
+        for (int i = 0; i < playerList.Count; i++)
+        {
+            textMeshProUGUI.text += "\n" + playerList[i].GetName() + "'s score is " + playerList[i].GetScore();
+        }
+
+        
+        
         if (IsClient && !IsServer)
         {
             RequestUpdateScoreboardUIServerRpc();
+            print("client request scoreboard update");
         }
 
         if (IsServer)
@@ -58,16 +70,21 @@ public class ScoreboardUI : NetworkBehaviour
     [ClientRpc]
     void UpdateClientScoreboardUIClientRpc()
     {
-        
-        textMeshProUGUI.text = "";
+        //this isn't working as of Tues week 2
+        //check how the button state rpc's to client
+        //should be able to do something similar?
 
-        for (int i = 0; i < playerList.Count; i++)
+        if (!IsServer)
         {
-            textMeshProUGUI.text += "\n" + playerList[i].GetName() + "'s score is " + playerList[i].GetScore();
+            textMeshProUGUI.text = "";
+            for (int i = 0; i < playerList.Count; i++)
+            {
+                textMeshProUGUI.text += "\n" + playerList[i].GetName() + "'s score is " + playerList[i].GetScore();
+            }
         }
     }
 
-    [ServerRpc]
+    [ServerRpc(RequireOwnership = false)]
     void RequestUpdateScoreboardUIServerRpc()
     {
         UpdateScoreboardUI();
