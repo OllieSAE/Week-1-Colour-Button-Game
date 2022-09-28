@@ -43,14 +43,7 @@ public class ButtonState : NetworkBehaviour
         textMeshProUGUI = buttonLeft.GetComponentInChildren<TextMeshProUGUI>();
         //ChangeButtonState();
     }
-
-    void Update()
-    {
-        //inefficient
-        
-    }
-
-
+    
     public void ChangeButtonState()
     {
         if (colourOff)

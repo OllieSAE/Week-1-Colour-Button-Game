@@ -70,9 +70,7 @@ public class ScoreboardUI : NetworkBehaviour
     [ClientRpc]
     void UpdateClientScoreboardUIClientRpc()
     {
-        //this isn't working as of Tues week 2
-        //check how the button state rpc's to client
-        //should be able to do something similar?
+        
 
         if (!IsServer)
         {

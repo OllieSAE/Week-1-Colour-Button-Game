@@ -20,9 +20,63 @@ public class Player : NetworkBehaviour
     {
         myScore += 1;
         IScoredEvent?.Invoke();
+
+        if (IsClient && !IsServer)
+        {
+            RequestGainScoreServerRpc();
+        }
+
+        if (IsServer)
+        {
+            GainScoreClientRpc();
+        }
+    }
+
+    [ClientRpc]
+    void GainScoreClientRpc()
+    {
+        if (!IsServer)
+        {
+            myScore += 1;
+            IScoredEvent?.Invoke();
+        }
+    }
+
+    [ServerRpc(RequireOwnership = false)]
+    void RequestGainScoreServerRpc()
+    {
+        myScore += 1;
+        IScoredEvent?.Invoke();
     }
 
     public void LoseScore()
+    {
+        myScore -= 1;
+        ILostScoreEvent?.Invoke();
+        
+        if (IsClient && !IsServer)
+        {
+            RequestLoseScoreServerRpc();
+        }
+
+        if (IsServer)
+        {
+            LoseScoreClientRpc();
+        }
+    }
+
+    [ClientRpc]
+    void LoseScoreClientRpc()
+    {
+        if (!IsServer)
+        {
+            myScore -= 1;
+            ILostScoreEvent?.Invoke();
+        }
+    }
+
+    [ServerRpc(RequireOwnership = false)]
+    void RequestLoseScoreServerRpc()
     {
         myScore -= 1;
         ILostScoreEvent?.Invoke();
