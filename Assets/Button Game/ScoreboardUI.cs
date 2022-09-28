@@ -52,8 +52,6 @@ public class ScoreboardUI : NetworkBehaviour
         {
             textMeshProUGUI.text += "\n" + playerList[i].GetName() + "'s score is " + playerList[i].GetScore();
         }
-
-        
         
         if (IsClient && !IsServer)
         {
@@ -66,20 +64,19 @@ public class ScoreboardUI : NetworkBehaviour
             UpdateClientScoreboardUIClientRpc();
         }
     }
+    //need to display scoreboard on client
 
     [ClientRpc]
     void UpdateClientScoreboardUIClientRpc()
     {
-        
-
-        if (!IsServer)
-        {
-            textMeshProUGUI.text = "";
-            for (int i = 0; i < playerList.Count; i++)
-            {
-                textMeshProUGUI.text += "\n" + playerList[i].GetName() + "'s score is " + playerList[i].GetScore();
-            }
-        }
+        // if (!IsServer)
+        // {
+        //     textMeshProUGUI.text = "";
+        //     for (int i = 0; i < playerList.Count; i++)
+        //     {
+        //         textMeshProUGUI.text += "\n" + playerList[i].GetName() + "'s score is " + playerList[i].GetScore();
+        //     }
+        // }
     }
 
     [ServerRpc(RequireOwnership = false)]

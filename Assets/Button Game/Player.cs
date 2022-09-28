@@ -10,35 +10,69 @@ public class Player : NetworkBehaviour
 {
     public string myName;
     private int myScore = 0;
-    public KeyCode myKeyCode;
+    private KeyCode myKeyCode = KeyCode.Space;
     
     public delegate void IScored();
     public event IScored IScoredEvent;
     public event IScored ILostScoreEvent;
 
-    public void GainScore()
+    public delegate void IPressedMykey(Player player);
+
+    public event IPressedMykey IPressedMyKeyEvent;
+
+    private void Update()
     {
-        myScore += 1;
-        IScoredEvent?.Invoke();
+        PlayerInput();
+    }
 
-        if (IsClient && !IsServer)
+    void PlayerInput()
+    {
+        if (IsClient)
         {
-            RequestGainScoreServerRpc();
+            if (IsLocalPlayer)
+            {
+                if (Input.GetKeyDown(KeyCode.Space))
+                {
+                    CheckPlayerInputsServerRpc();
+                }
+            }
         }
+    }
+    
+    [ServerRpc(RequireOwnership = false)]
+    void CheckPlayerInputsServerRpc()
+    {
+        IPressedMyKeyEvent?.Invoke(this);
+    }
 
+    public void ChangeScore(int amount)
+    {
+        //this is not synchronised - if a player joined late, they'd be X points behind!
+        //score needs to be STORED and updated on server side only
+        //somehow "broadcast" it to all clients each update
+        
+        //client should just invoke an rpc saying "i pressed a trigger"
+        //server does everything else
         if (IsServer)
         {
-            GainScoreClientRpc();
+            myScore += amount;
+            IScoredEvent?.Invoke();
+            ChangeScoreClientRpc(myScore);
+        }
+        
+        if (IsClient && !IsServer)
+        {
+            //RequestGainScoreServerRpc();
         }
     }
 
     [ClientRpc]
-    void GainScoreClientRpc()
+    void ChangeScoreClientRpc(int newScore)
     {
-        if (!IsServer)
+        if (IsClient)
         {
-            myScore += 1;
-            IScoredEvent?.Invoke();
+            myScore = newScore;
+            //IScoredEvent?.Invoke();
         }
     }
 

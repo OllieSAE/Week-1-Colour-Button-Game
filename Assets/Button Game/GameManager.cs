@@ -39,39 +39,49 @@ public class GameManager : NetworkBehaviour
     }
     void Start()
     {
-        SetPlayers();
+        //SetPlayers();
     }
     
     void OnDisable()
     {
         buttonState.ButtonMatchEvent -= NewMatch;
         buttonState.ButtonFailEvent -= NewFail;
+        foreach (var player in playerList)
+        {
+            player.IPressedMyKeyEvent -= PlayerPressedButton;
+        }
     }
     
     private void OnGUI()
     {
         if (GUILayout.Button("Start"))
         {
-            if (IsClient && !IsServer) return;
-            
-            playerList.AddRange(GameObject.FindObjectsOfType<Player>());
-            
-            if(IsServer) buttonState.ChangeButtonState();
-            if(IsServer) StartGameClientRpc();
-            StartGameEvent?.Invoke();
-            
+            if (IsServer)
+            {
+                playerList.AddRange(GameObject.FindObjectsOfType<Player>());
+                buttonState.ChangeButtonState();
+                //StartGameClientRpc();
+                foreach (var player in playerList)
+                {
+                    player.IPressedMyKeyEvent += PlayerPressedButton;
+                }
+                StartGameEvent?.Invoke();
+            }
             
             //options instead of static event
             //NetworkManager.Singleton.ConnectedClients;
             //NetworkManager.Singleton.OnServerStarted;
         }
     }
+    
+    
 
     [ClientRpc]
     void StartGameClientRpc()
     {
         if (!IsServer)
         {
+            //need to get rid of this!
             playerList.AddRange(GameObject.FindObjectsOfType<Player>());
             StartGameEvent?.Invoke();
         }
@@ -80,7 +90,7 @@ public class GameManager : NetworkBehaviour
 
     void Update()
     {
-        PlayerInputs();
+        //PlayerInputs();
     }
 
     void SetPlayers()
@@ -102,15 +112,42 @@ public class GameManager : NetworkBehaviour
         currentMatch = false;
         pointsAwarded = false;
     }
+
+    void PlayerPressedButton(Player player)
+    {
+        if (IsServer)
+        {
+            if (currentMatch && !pointsAwarded)
+            {
+                pointsAwarded = true;
+                currentMatch = false;
+                player.ChangeScore(1);
+            }
+            else if (pointsAwarded)
+            {
+                print("" + myName + ", you're too slow, points have already been awarded for this round!");
+            }
+            else if (!currentMatch && !pointsAwarded)
+            {
+                player.ChangeScore(-1);
+                print("" + myName + ", you dun goofed, you lose a point!");
+            }
+        }
+        
+    }
     void PlayerInputs()
     {
+        //separate this into two
+        //client shouldn't run logic
+        //keycode is unnecessary because it's networked - make the keycode just space
+        
         for (int i = 0; i < playerList.Count; i++)
         {
             if (Input.GetKeyDown(playerList[i].GetKeyCode()) && currentMatch && (!pointsAwarded))
             {
                 pointsAwarded = true;
                 currentMatch = false;
-                playerList[i].GainScore();
+                playerList[i].ChangeScore(1);
             }
             else if (Input.GetKeyDown(playerList[i].GetKeyCode()) && (pointsAwarded))
             {
@@ -118,9 +155,11 @@ public class GameManager : NetworkBehaviour
             }
             else if (Input.GetKeyDown(playerList[i].GetKeyCode()) && (!currentMatch) && (!pointsAwarded))
             {
-                playerList[i].LoseScore();
+                playerList[i].ChangeScore(-1);
                 print(""+playerList[i].myName + ", you dun goofed, you lose a point!");
             }
         }
     }
+
+    
 }
