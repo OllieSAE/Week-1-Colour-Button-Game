@@ -15,6 +15,8 @@ public class ScoreboardUI : NetworkBehaviour
     private int myScore;
 
     private List<Player> playerList;
+    private List<string> playerListForClient;
+    private List<int> scoresListForClient;
 
     //uses Start instead of OnEnable so gameManager has time to generate player list
     void Start()
@@ -31,6 +33,8 @@ public class ScoreboardUI : NetworkBehaviour
     void StartSetup()
     {
         playerList = gameManager.playerList;
+        playerListForClient = new List<string>();
+        scoresListForClient = new List<int>();
         scoreboardModel.ScoredPointEvent += UpdateScoreboardUI;
         scoreboardModel.LostPointEvent += UpdateScoreboardUI;
     }
@@ -42,46 +46,31 @@ public class ScoreboardUI : NetworkBehaviour
         scoreboardModel.LostPointEvent -= UpdateScoreboardUI;
     }
 
-    //player parameter not actually used at the moment - the If statement was irrelevant
     public void UpdateScoreboardUI()
     {
-        playerList = gameManager.playerList;
-        textMeshProUGUI.text = "";
-
-        for (int i = 0; i < playerList.Count; i++)
-        {
-            textMeshProUGUI.text += "\n" + playerList[i].GetName() + "'s score is " + playerList[i].GetScore();
-        }
-        
-        if (IsClient && !IsServer)
-        {
-            RequestUpdateScoreboardUIServerRpc();
-            print("client request scoreboard update");
-        }
-
         if (IsServer)
         {
             UpdateClientScoreboardUIClientRpc();
         }
     }
-    //need to display scoreboard on client
-
+    
     [ClientRpc]
     void UpdateClientScoreboardUIClientRpc()
     {
-        // if (!IsServer)
-        // {
-        //     textMeshProUGUI.text = "";
-        //     for (int i = 0; i < playerList.Count; i++)
-        //     {
-        //         textMeshProUGUI.text += "\n" + playerList[i].GetName() + "'s score is " + playerList[i].GetScore();
-        //     }
-        // }
+        StartCoroutine(UpdateScoreboardCoroutine());
     }
 
-    [ServerRpc(RequireOwnership = false)]
-    void RequestUpdateScoreboardUIServerRpc()
+    //NOTE: Coroutine is used because client's scoreboard updated a few frames before client's player's scores
+    //so client was ALWAYS one score behind server. Coroutine with a tiny delay allows for proper, albeit hacky, sync
+    private IEnumerator UpdateScoreboardCoroutine()
     {
-        UpdateScoreboardUI();
+        yield return new WaitForSeconds(0.1f);
+        print("updating score");
+        
+        textMeshProUGUI.text = "";
+        for (int i = 0; i < playerList.Count; i++)
+        {
+            textMeshProUGUI.text += "\n" + playerList[i].GetName() + "'s score is " + playerList[i].GetScore();
+        }
     }
 }

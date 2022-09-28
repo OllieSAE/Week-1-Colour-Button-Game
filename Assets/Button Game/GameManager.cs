@@ -60,7 +60,7 @@ public class GameManager : NetworkBehaviour
             {
                 playerList.AddRange(GameObject.FindObjectsOfType<Player>());
                 buttonState.ChangeButtonState();
-                //StartGameClientRpc();
+                StartGameClientRpc();
                 foreach (var player in playerList)
                 {
                     player.IPressedMyKeyEvent += PlayerPressedButton;

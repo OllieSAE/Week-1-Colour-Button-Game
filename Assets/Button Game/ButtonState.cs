@@ -69,14 +69,14 @@ public class ButtonState : NetworkBehaviour
         if (currentColour == currentText)
         {
             ButtonMatchEvent?.Invoke();
-            print("match");
+            //print("match");
             //CallClientMatchEventClientRpc();
         }
 
         if (currentColour != currentText)
         {
             ButtonFailEvent?.Invoke();
-            print("fail");
+            //print("fail");
             //CallClientFailEventClientRpc();
         }
     }

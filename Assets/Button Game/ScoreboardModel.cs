@@ -7,9 +7,7 @@ using UnityEngine;
 public class ScoreboardModel : NetworkBehaviour
 {
     public GameManager gameManager;
-
     public delegate void Scoreboard();
-
     public event Scoreboard ScoredPointEvent;
     public event Scoreboard LostPointEvent;
     private List<Player> playerList;
@@ -22,10 +20,6 @@ public class ScoreboardModel : NetworkBehaviour
 
     void StartSetup()
     {
-        if (IsServer)
-        {
-            
-        }
         playerList = gameManager.playerList;
         foreach (Player player in playerList)
         {
@@ -47,19 +41,11 @@ public class ScoreboardModel : NetworkBehaviour
 
     public void AddScore()
     {
-        if (IsServer)
-        {
-            
-        }
         ScoredPointEvent?.Invoke();
     }
 
     public void MinusScore()
     {
-        if (IsServer)
-        {
-            
-        }
         LostPointEvent?.Invoke();
     }
 }

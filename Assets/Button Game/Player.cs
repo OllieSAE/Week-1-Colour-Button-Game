@@ -6,6 +6,15 @@ using TMPro;
 using Unity.Netcode;
 using UnityEngine.UI;
 
+//maybe chuck a dictionary here - or actually in game manager more likely!!
+//[Serializable]
+//public class Player
+//{
+//  public string name;
+//  public int score;
+//  public etc etc.
+//}
+
 public class Player : NetworkBehaviour
 {
     public string myName;
@@ -47,22 +56,11 @@ public class Player : NetworkBehaviour
 
     public void ChangeScore(int amount)
     {
-        //this is not synchronised - if a player joined late, they'd be X points behind!
-        //score needs to be STORED and updated on server side only
-        //somehow "broadcast" it to all clients each update
-        
-        //client should just invoke an rpc saying "i pressed a trigger"
-        //server does everything else
         if (IsServer)
         {
             myScore += amount;
             IScoredEvent?.Invoke();
             ChangeScoreClientRpc(myScore);
-        }
-        
-        if (IsClient && !IsServer)
-        {
-            //RequestGainScoreServerRpc();
         }
     }
 
@@ -72,48 +70,7 @@ public class Player : NetworkBehaviour
         if (IsClient)
         {
             myScore = newScore;
-            //IScoredEvent?.Invoke();
         }
-    }
-
-    [ServerRpc(RequireOwnership = false)]
-    void RequestGainScoreServerRpc()
-    {
-        myScore += 1;
-        IScoredEvent?.Invoke();
-    }
-
-    public void LoseScore()
-    {
-        myScore -= 1;
-        ILostScoreEvent?.Invoke();
-        
-        if (IsClient && !IsServer)
-        {
-            RequestLoseScoreServerRpc();
-        }
-
-        if (IsServer)
-        {
-            LoseScoreClientRpc();
-        }
-    }
-
-    [ClientRpc]
-    void LoseScoreClientRpc()
-    {
-        if (!IsServer)
-        {
-            myScore -= 1;
-            ILostScoreEvent?.Invoke();
-        }
-    }
-
-    [ServerRpc(RequireOwnership = false)]
-    void RequestLoseScoreServerRpc()
-    {
-        myScore -= 1;
-        ILostScoreEvent?.Invoke();
     }
 
     #region Getters
