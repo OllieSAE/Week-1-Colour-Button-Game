@@ -586,7 +586,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   colours: []
   names: []
-  arraySize: 1
+  arraySize: 6
   gameManager: {fileID: 658789358}
   buttonLeft: {fileID: 623151087}
   image: {fileID: 0}

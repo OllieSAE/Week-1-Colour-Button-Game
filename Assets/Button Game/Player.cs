@@ -29,6 +29,34 @@ public class Player : NetworkBehaviour
 
     public event IPressedMykey IPressedMyKeyEvent;
 
+    private void Start()
+    {
+        GameManager.StartGameEvent += StartSetup;
+    }
+
+    private void StartSetup()
+    {
+        //NOTE: Hack just to show host/client name during testing
+        //will remove when player setup UI exists
+        if (IsServer)
+        {
+            if (IsLocalPlayer)
+            {
+                myName = "Host";
+            }
+            else myName = "Client";
+        }
+
+        if (IsClient && !IsServer)
+        {
+            if (IsLocalPlayer)
+            {
+                myName = "Client";
+            }
+            else myName = "Host";
+        }
+    }
+    
     private void Update()
     {
         PlayerInput();

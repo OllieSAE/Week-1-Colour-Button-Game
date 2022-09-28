@@ -42,7 +42,6 @@ public class ButtonState : NetworkBehaviour
     {
         image = buttonLeft.GetComponent<Image>();
         textMeshProUGUI = buttonLeft.GetComponentInChildren<TextMeshProUGUI>();
-        //ChangeButtonState();
     }
     
     public void ChangeButtonState()
@@ -69,37 +68,14 @@ public class ButtonState : NetworkBehaviour
         if (currentColour == currentText)
         {
             ButtonMatchEvent?.Invoke();
-            //print("match");
-            //CallClientMatchEventClientRpc();
         }
 
         if (currentColour != currentText)
         {
             ButtonFailEvent?.Invoke();
-            //print("fail");
-            //CallClientFailEventClientRpc();
-        }
-    }
-    
-    [ClientRpc]
-    void CallClientMatchEventClientRpc() //this is not working as intended
-    {
-        if (IsClient && !IsServer)
-        {
-            ButtonMatchEvent?.Invoke();
         }
     }
 
-    [ClientRpc]
-    void CallClientFailEventClientRpc() //this is not working as intended
-    {
-        if (IsClient && !IsServer)
-        {
-            ButtonFailEvent?.Invoke();
-            print("button fail event");
-        }
-    }
-    
     void SetupArrays()
     {
        SetColourArray();
@@ -162,9 +138,6 @@ public class ButtonState : NetworkBehaviour
             newColourIndex = Random.Range(0, colours.Length - 1);
             SetClientColourClientRpc(newColourIndex);
         }
-        
-        //image.color = colours[newColourIndex];
-        //currentColour = newColourIndex;
     }
 
     void ChangeText()
@@ -174,9 +147,6 @@ public class ButtonState : NetworkBehaviour
             newTextIndex = Random.Range(0, names.Length - 1);
             SetClientTextClientRpc(newTextIndex);
         }
-        
-        //textMeshProUGUI.text = names[newTextIndex];
-        //currentText = newTextIndex;
     }
 
     [ClientRpc]

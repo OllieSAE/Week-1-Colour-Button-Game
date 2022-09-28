@@ -15,16 +15,7 @@ public class ScoreboardUI : NetworkBehaviour
     private int myScore;
 
     private List<Player> playerList;
-    private List<string> playerListForClient;
-    private List<int> scoresListForClient;
 
-    //uses Start instead of OnEnable so gameManager has time to generate player list
-    void Start()
-    {
-        
-    }
-    
-    
     void OnEnable()
     {
         GameManager.StartGameEvent += StartSetup;
@@ -33,8 +24,6 @@ public class ScoreboardUI : NetworkBehaviour
     void StartSetup()
     {
         playerList = gameManager.playerList;
-        playerListForClient = new List<string>();
-        scoresListForClient = new List<int>();
         scoreboardModel.ScoredPointEvent += UpdateScoreboardUI;
         scoreboardModel.LostPointEvent += UpdateScoreboardUI;
     }

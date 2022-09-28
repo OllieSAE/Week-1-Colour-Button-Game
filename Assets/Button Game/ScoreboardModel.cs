@@ -12,7 +12,6 @@ public class ScoreboardModel : NetworkBehaviour
     public event Scoreboard LostPointEvent;
     private List<Player> playerList;
 
-    //uses Start instead of OnEnable so gameManager has time to generate player list
     void Start()
     {
         GameManager.StartGameEvent += StartSetup;
